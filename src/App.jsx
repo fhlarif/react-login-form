@@ -1,12 +1,7 @@
-import AuthContainer from "./components/AuthContainer"
+import AuthContainer from "./components/AuthContainer";
 
 function App() {
-
-  return (
-
-    <AuthContainer />
-
-  )
+  return <AuthContainer />;
 }
 
-export default App
+export default App;
