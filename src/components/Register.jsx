@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import PasswordIndicator from "./PasswordIndicator";
 
-const Register = ({ onLogin, onShowPassword, showPassword }) => {
+const Register = ({ onLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showIndicator, setShowIndicator] = useState(false);
+  const [password, setPassword] = useState("");
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleShowIndicator = () => {
+    setShowIndicator(true);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    console.log(password);
+  };
+
   return (
     <div className="grid lg:grid-cols-2 relative bg-slate-800  w-full mx-4 lg:my-24 p-10 rounded-3xl ">
       <svg
@@ -39,11 +55,14 @@ const Register = ({ onLogin, onShowPassword, showPassword }) => {
               id="password"
               className="input "
               required
+              onFocus={handleShowIndicator}
+              onChange={handlePasswordChange}
+              // value={password}
             />
             {showPassword ? (
-              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onShowPassword} />
+              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={handleShowPassword} />
             ) : (
-              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onShowPassword} />
+              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={handleShowPassword} />
             )}
           </div>
         </div>
@@ -51,7 +70,7 @@ const Register = ({ onLogin, onShowPassword, showPassword }) => {
           Register
         </button>
 
-        <PasswordIndicator />
+        <PasswordIndicator showIndicator={showIndicator} />
 
         <div className="mt-3 flex flex-col gap-5 text-lg tracking-wider text-gray-100 ">
           <a href="#" rel="noopener noreferrer" onClick={onLogin}>
