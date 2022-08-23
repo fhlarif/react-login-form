@@ -9,7 +9,8 @@ const AuthContainer = () => {
     register: false,
     reset: false,
   });
-  const [eye, setEye] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showIndicator, setShowIndicator] = useState(false);
 
   const handleLogin = () => {
     setAuth({
@@ -34,14 +35,26 @@ const AuthContainer = () => {
     });
   };
 
-  const handleEye = () => {
-    setEye(!eye);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleShowIndicator = () => {
+    setShowIndicator(true);
   };
 
   return (
     <div className="  min-h-screen py-4 overflow-hidden bg-slate-700 text-slate-300 flex justify-center">
       {auth.login && <Login onRegister={handleRegister} onReset={handleReset} />}
-      {auth.register && <Register onLogin={handleLogin} onEye={handleEye} eye={eye} />}
+      {auth.register && (
+        <Register
+          onShowIndicator={handleShowIndicator}
+          onLogin={handleLogin}
+          onShowPassword={handleShowPassword}
+          showPassword={showPassword}
+          showIndicator={showIndicator}
+        />
+      )}
       {auth.reset && <Reset onLogin={handleLogin} />}
     </div>
   );
