@@ -1,5 +1,6 @@
 import React from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import PasswordIndicator from "./PasswordIndicator";
 
 const Register = ({ onLogin, onShowPassword, showPassword }) => {
   return (
@@ -46,9 +47,12 @@ const Register = ({ onLogin, onShowPassword, showPassword }) => {
             )}
           </div>
         </div>
-        <button type="button" className="login-button">
+        <button type="button" className="login-button w-full">
           Register
         </button>
+
+        <PasswordIndicator />
+
         <div className="mt-3 flex flex-col gap-5 text-lg tracking-wider text-gray-100 ">
           <a href="#" rel="noopener noreferrer" onClick={onLogin}>
             <p>
