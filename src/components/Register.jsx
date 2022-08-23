@@ -1,7 +1,7 @@
 import React from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
-const Register = ({ onLogin, onEye, eye }) => {
+const Register = ({ onLogin, onShowPassword, showPassword }) => {
   return (
     <div className="grid lg:grid-cols-2 relative bg-slate-800  w-full mx-4 lg:my-24 p-10 rounded-3xl ">
       <svg
@@ -31,12 +31,18 @@ const Register = ({ onLogin, onEye, eye }) => {
           <label htmlFor="password" className="label">
             Password
           </label>
-          <div className="relative">
-            <input type="password" placeholder="****" id="password" className="input " required />
-            {eye ? (
-              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onEye} />
+          <div className="relative cursor-pointer">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="****"
+              id="password"
+              className="input "
+              required
+            />
+            {showPassword ? (
+              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onShowPassword} />
             ) : (
-              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onEye} />
+              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onShowPassword} />
             )}
           </div>
         </div>
