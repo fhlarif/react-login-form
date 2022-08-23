@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import PasswordIndicator from "./PasswordIndicator";
 
@@ -7,6 +7,14 @@ const Register = ({ onLogin }) => {
   const [showIndicator, setShowIndicator] = useState(false);
   const [password, setPassword] = useState("");
 
+  const [passwordIndicator, setPasswordIndicator] = useState({
+    passLetter: false,
+    passNumber: false,
+    passChar: false,
+    passLength: false,
+    passComplete: false,
+  });
+
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -14,11 +22,53 @@ const Register = ({ onLogin }) => {
   const handleShowIndicator = () => {
     setShowIndicator(true);
   };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    console.log(password);
   };
 
+  useEffect(() => {
+    let passworlength = password.length;
+    /* Check lower uppercase */
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passLetter"]: true }));
+    } else {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passLetter"]: false }));
+    }
+
+    /* check number */
+    if (password.match(/([0-9])/)) {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passNumber"]: true }));
+    } else {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passNumber"]: false }));
+    }
+
+    /* check special char */
+    if (password.match(/([!@#$%^&*()~`?><.,{}])/)) {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passChar"]: true }));
+    } else {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passChar"]: false }));
+    }
+
+    // /* check length char */
+    if (passworlength > 7) {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passLength"]: true }));
+    } else {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passLength"]: false }));
+    }
+
+    /* check length char */
+    if (
+      passwordIndicator.passChar &&
+      passworlength > 7 &&
+      passwordIndicator.passNumber &&
+      passwordIndicator.passLetter
+    ) {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passComplete"]: true }));
+    } else {
+      setPasswordIndicator((passwordInd) => ({ ...passwordInd, ["passComplete"]: false }));
+    }
+  }, [password]);
   return (
     <div className="grid lg:grid-cols-2 relative bg-slate-800  w-full mx-4 lg:my-24 p-10 rounded-3xl ">
       <svg
@@ -32,17 +82,22 @@ const Register = ({ onLogin }) => {
       </svg>
       <div className="animate-slideup text-gray-900 flex-col flex justify-center">
         <h1 className="text-4xl text-amber-500 my-5 text-center">Register</h1>
-        <div className="mb-6 flex flex-col">
-          <label htmlFor="username" className="label">
-            User Name
-          </label>
-          <input type="text" id="username" className="input" placeholder="fath@990" required />
-        </div>
-        <div className="mb-6 flex flex-col">
-          <label htmlFor="email" className="label">
-            Email
-          </label>
-          <input type="email" placeholder="****" id="email" className="input" required />
+        <div
+          onClick={() => {
+            setShowIndicator(false);
+          }}>
+          <div className="mb-6 flex flex-col">
+            <label htmlFor="username" className="label">
+              User Name
+            </label>
+            <input type="text" id="username" className="input" placeholder="fath@990" required />
+          </div>
+          <div className="mb-6 flex flex-col">
+            <label htmlFor="email" className="label">
+              Email
+            </label>
+            <input type="email" placeholder="****" id="email" className="input" required />
+          </div>
         </div>
         <div className="mb-12 flex flex-col">
           <label htmlFor="password" className="label">
@@ -66,11 +121,17 @@ const Register = ({ onLogin }) => {
             )}
           </div>
         </div>
-        <button type="button" className="login-button w-full">
+        <button
+          onClick={() => {
+            alert("Registered!");
+          }}
+          type={passwordIndicator.passComplete ? "button" : "submit"}
+          disabled={passwordIndicator.passComplete ? false : true}
+          className={passwordIndicator.passComplete ? "login-button w-full" : "disable-button w-full"}>
           Register
         </button>
 
-        <PasswordIndicator showIndicator={showIndicator} />
+        <PasswordIndicator showIndicator={showIndicator} passwordIndicator={passwordIndicator} />
 
         <div className="mt-3 flex flex-col gap-5 text-lg tracking-wider text-gray-100 ">
           <a href="#" rel="noopener noreferrer" onClick={onLogin}>
