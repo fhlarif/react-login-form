@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import PasswordIndicator from "./PasswordIndicator";
 
-const Register = ({ onLogin }) => {
-  const [showPassword, setShowPassword] = useState(false);
+const Register = ({ onLogin, onShowPassword, onTogglePassword }) => {
   const [showIndicator, setShowIndicator] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -14,10 +13,6 @@ const Register = ({ onLogin }) => {
     passLength: false,
     passComplete: false,
   });
-
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   const handleShowIndicator = () => {
     setShowIndicator(true);
@@ -105,19 +100,18 @@ const Register = ({ onLogin }) => {
           </label>
           <div className="relative cursor-pointer">
             <input
-              type={showPassword ? "text" : "password"}
+              type={onShowPassword ? "text" : "password"}
               placeholder="****"
               id="password"
               className="input "
               required
               onFocus={handleShowIndicator}
               onChange={handlePasswordChange}
-              // value={password}
             />
-            {showPassword ? (
-              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={handleShowPassword} />
+            {onShowPassword ? (
+              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onTogglePassword} />
             ) : (
-              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={handleShowPassword} />
+              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onTogglePassword} />
             )}
           </div>
         </div>
