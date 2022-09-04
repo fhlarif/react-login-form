@@ -10,6 +10,12 @@ const AuthContainer = () => {
     reset: false,
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleLogin = () => {
     setAuth({
       login: true,
@@ -35,8 +41,17 @@ const AuthContainer = () => {
 
   return (
     <div className="  min-h-screen py-4 overflow-hidden bg-slate-700 text-slate-300 flex justify-center">
-      {auth.login && <Login onRegister={handleRegister} onReset={handleReset} />}
-      {auth.register && <Register onLogin={handleLogin} />}
+      {auth.login && (
+        <Login
+          onRegister={handleRegister}
+          onReset={handleReset}
+          onShowPassword={showPassword}
+          onTogglePassword={handleTogglePassword}
+        />
+      )}
+      {auth.register && (
+        <Register onLogin={handleLogin} onShowPassword={showPassword} onTogglePassword={handleTogglePassword} />
+      )}
       {auth.reset && <Reset onLogin={handleLogin} />}
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
-const Login = ({ onRegister, onReset }) => {
+const Login = ({ onRegister, onReset, onShowPassword, onTogglePassword }) => {
   return (
     <div className="grid lg:grid-cols-2   bg-slate-800 w-full mx-4  lg:my-24 p-10 rounded-3xl ">
       <div className=" animate-slidedown hidden lg:flex items-center justify-center bg-violet-900 m-10 rounded-2xl">
@@ -29,7 +30,21 @@ const Login = ({ onRegister, onReset }) => {
           <label htmlFor="password" className="label">
             Password
           </label>
-          <input type="password" placeholder="****" id="password" className="input" required />
+          {/* <input type="password" placeholder="****" id="password" className="input" required /> */}
+          <div className="relative cursor-pointer">
+            <input
+              type={onShowPassword ? "text" : "password"}
+              placeholder="****"
+              id="password"
+              className="input "
+              required
+            />
+            {onShowPassword ? (
+              <HiEyeOff className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onTogglePassword} />
+            ) : (
+              <HiEye className="absolute text-white right-0 inset-y-0 mt-3 mr-4" onClick={onTogglePassword} />
+            )}
+          </div>
         </div>
 
         <button type="button" className="login-button">
